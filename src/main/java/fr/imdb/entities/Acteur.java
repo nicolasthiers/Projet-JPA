@@ -1,11 +1,25 @@
 package fr.imdb.entities;
 
-import java.time.LocalDate;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "acteur")
 public class Acteur extends Personne{
 
+    @Column(name = "taille", precision = 3, scale = 2)
     private double taille;
+    @Column(name = "url", nullable = false, unique = true, length = 60)
     private String url;
+
+    @OneToMany(mappedBy = "acteur")
+    private List<Role> roles = new ArrayList<Role>();
 
 
     public Acteur() {

@@ -1,12 +1,25 @@
 package fr.imdb.entities;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "pays")
 public class Pays {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "nom", unique = true, nullable = false, length = 20)
     private String nom;
+    @Column(name = "url", unique = true, length = 60)
     private String url;
+
+    @OneToMany(mappedBy = "pays")
+    private List<Film> films = new ArrayList<Film>();
 
     public Pays() {
     }

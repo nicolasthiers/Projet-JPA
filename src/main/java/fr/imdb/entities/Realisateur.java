@@ -1,10 +1,25 @@
 package fr.imdb.entities;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "realisateur")
 public class Realisateur extends Personne{
 
+    @Column(name = "url", nullable = false, unique = true, length = 60)
     private String url;
+
+    @ManyToMany
+    @JoinTable(name = "realisateur_film",
+                joinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "id_imdb"),
+                inverseJoinColumns = @JoinColumn(name = "id_film", referencedColumnName = "id_imdb")
+    )
+    private Set<Film> films = new HashSet<>();
+
 
 
     public Realisateur() {

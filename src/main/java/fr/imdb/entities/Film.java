@@ -1,18 +1,57 @@
 package fr.imdb.entities;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.*;
+
+@Entity
+@Table(name = "film")
 public class Film {
 
+    @Id
+    @Column(name = "id_imdb", length = 20)
     private String idImdb;
+    @Column(name = "nom", nullable = false, length = 50)
     private String nom;
+    @Column(name = "annee", nullable = false, length = 20)
     private String annee;
+    @Column(name = "rating", precision = 3, scale = 1)
     private double rating;
+    @Column(name = "url", unique = true, length = 60)
     private String url;
-    private LieuDeTournage lieuDeTournage;
-    private Langue langue;
+    @Column(name = "resume", length = 1000)
     private String resume;
+
+    @ElementCollection(targetClass = Genre.class)
+    @CollectionTable(
+            name = "film_genre",
+            joinColumns = @JoinColumn(name = "id_film")
+    )
+    @Column(name = "id_genre")
+    @Convert(converter = GenreConverter.class)
+    private List<Genre> genres = new ArrayList<Genre>();
+
+    @OneToMany(mappedBy = "film")
+    private List<Role> roles = new ArrayList<Role>();
+
+    @ManyToOne
+    @JoinColumn(name = "id_lieu_de_tournage")
+    private LieuDeTournage lieuDeTournage;
+
+    @ManyToOne
+    @JoinColumn(name = "id_langue")
+    private Langue langue;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pays")
     private Pays pays;
+
+    @ManyToMany
+    @JoinTable(name = "realisateur_film",
+                joinColumns = @JoinColumn(name = "id_film", referencedColumnName = "id_imdb"),
+                inverseJoinColumns = @JoinColumn(name = "id_realisateur", referencedColumnName = "id_imdb")
+    )
+    private Set<Realisateur> realisateurs = new HashSet<>();
 
     public Film() {
     }

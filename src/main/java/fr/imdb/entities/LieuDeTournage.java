@@ -1,11 +1,23 @@
 package fr.imdb.entities;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "lieu_de_tournage")
 public class LieuDeTournage {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "localisation", unique = true, length = 100)
     private String localisation;
+
+    @OneToMany(mappedBy = "lieuDeTournage")
+    private List<Film> films = new ArrayList<Film>();
 
     public LieuDeTournage() {
     }
