@@ -1,11 +1,11 @@
 package fr.imdb.entities;
 
-enum Genre {
+public enum Genre {
         Drama,
         Horror,
         Thriller,
         Adventure,
-        Sci_Fi("Sci-fi"),
+        Sci_Fi("Sci-Fi"),
         Comedy,
         Family,
         Crime,
@@ -35,12 +35,17 @@ enum Genre {
        return label;
    }
 
-   public static Genre fromLabel(String text) {
-       for (Genre g : Genre.values()) {
-           if(g.label.equalsIgnoreCase(text.trim())) {
-               return g;
-           }
-       }
-       throw new IllegalArgumentException("Genre inconnu : " + text);
-   }
+    public static Genre fromLabel(String text) {
+        if (text == null) {
+            return null;
+        }
+        String cleanedText = text.trim().replace(" ", "-");
+
+        for (Genre g : Genre.values()) {
+            if (g.label.equalsIgnoreCase(cleanedText) || g.name().equalsIgnoreCase(cleanedText.replace("-", "_"))) {
+                return g;
+            }
+        }
+        throw new IllegalArgumentException("Genre inconnu : " + text);
+    }
 }

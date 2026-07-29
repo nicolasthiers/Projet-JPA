@@ -1,11 +1,26 @@
 package fr.imdb.entities;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "lieu_de_naissance")
 public class LieuDeNaissance {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "localisation", unique = true, length = 100)
     private String localisation;
+
+    @OneToMany(mappedBy = "lieuDeNaissance")
+    private List<Acteur> acteurs = new ArrayList<Acteur>();
+
+    @OneToMany(mappedBy = "lieuDeNaissance")
+    private List<Realisateur> realisateurs = new ArrayList<Realisateur>();
 
     public LieuDeNaissance() {
     }

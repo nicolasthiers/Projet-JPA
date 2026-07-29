@@ -1,13 +1,24 @@
 package fr.imdb.entities;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class Personne {
 
+    @Id
+    @Column(name = "id_imdb", length = 20)
     private String idImdb;
+
+    @Column(name = "identite", nullable = false, length = 50)
     private String identite;
+    @Column(name = "date_de_naissance")
     private LocalDate dateDeNaissance;
+
+    @ManyToOne
+    @JoinColumn(name = "id_lieu_de_naissance")
     private LieuDeNaissance lieuDeNaissance;
 
     public Personne() {

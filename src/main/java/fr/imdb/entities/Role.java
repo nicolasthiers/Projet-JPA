@@ -1,13 +1,30 @@
 package fr.imdb.entities;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "role")
 public class Role {
 
-    private Film film;
-    private Acteur acteur;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "personnage", length = 50)
     private String personnage;
+    @Column(name = "est_casting_principal")
     private boolean estCastingPrincipal;
+
+    @ManyToOne
+    @JoinColumn(name = "id_film")
+    private Film film;
+
+    @ManyToOne
+    @JoinColumn(name = "id_acteur")
+    private Acteur acteur;
+
 
     public Role() {
     }
@@ -17,6 +34,14 @@ public class Role {
         this.acteur = acteur;
         this.personnage = personnage;
         this.estCastingPrincipal = estCastingPrincipal;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Film getFilm() {
@@ -55,12 +80,12 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Role role)) return false;
-        return Objects.equals(getFilm(), role.getFilm()) && Objects.equals(getActeur(), role.getActeur());
+        return getId() == role.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFilm(), getActeur());
+        return Objects.hashCode(getId());
     }
 
     @Override
