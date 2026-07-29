@@ -22,8 +22,7 @@ public class LieuDeTournage {
     public LieuDeTournage() {
     }
 
-    public LieuDeTournage(int id, String localisation) {
-        this.id = id;
+    public LieuDeTournage(String localisation) {
         this.localisation = localisation;
     }
 

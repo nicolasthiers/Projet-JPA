@@ -24,8 +24,7 @@ public class Pays {
     public Pays() {
     }
 
-    public Pays(int id, String nom, String url) {
-        this.id = id;
+    public Pays(String nom, String url) {
         this.nom = nom;
         this.url = url;
     }

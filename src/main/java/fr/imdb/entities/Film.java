@@ -140,6 +140,30 @@ public class Film {
         this.pays = pays;
     }
 
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Realisateur> getRealisateurs() {
+        return realisateurs;
+    }
+
+    public void setRealisateurs(Set<Realisateur> realisateurs) {
+        this.realisateurs = realisateurs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

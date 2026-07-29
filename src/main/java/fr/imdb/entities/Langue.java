@@ -22,8 +22,7 @@ public class Langue {
     public Langue() {
     }
 
-    public Langue(int id, String nomLangue) {
-        this.id = id;
+    public Langue(String nomLangue) {
         this.nomLangue = nomLangue;
     }
 

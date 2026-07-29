@@ -25,8 +25,7 @@ public class LieuDeNaissance {
     public LieuDeNaissance() {
     }
 
-    public LieuDeNaissance(int id, String localisation) {
-        this.id = id;
+    public LieuDeNaissance(String localisation) {
         this.localisation = localisation;
     }
 

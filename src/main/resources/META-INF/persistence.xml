@@ -5,11 +5,20 @@
 https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
              version="3.1">
     <persistence-unit name="projet-jpa">
-<!--        <class></class>-->
+
+        <class>fr.imdb.entities.Film</class>
+        <class>fr.imdb.entities.Acteur</class>
+        <class>fr.imdb.entities.Realisateur</class>
+        <class>fr.imdb.entities.Pays</class>
+        <class>fr.imdb.entities.Langue</class>
+        <class>fr.imdb.entities.LieuDeNaissance</class>
+        <class>fr.imdb.entities.LieuDeTournage</class>
+        <class>fr.imdb.entities.Role</class>
+
         <properties>
             <property
                     name="jakarta.persistence.jdbc.url"
-                    value="jdbc:mariadb://localhost:3306/cinema"/>
+                    value="jdbc:mariadb://localhost:3306/cinema?useUnicode=true&amp;characterEncoding=UTF-8"/>
 
             <property
                     name="jakarta.persistence.jdbc.user"
