@@ -1,28 +1,29 @@
 package fr.imdb.dao;
 
-import fr.imdb.entities.LieuDeTournage;
+import fr.imdb.entities.LieuDeNaissance;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 
-public class LieuDeTournageDao {
+public class LieuDeNaissanceDao {
 
     private EntityManager entityManager;
+
 
     /**
      * Crée un DAO utilisant l'EntityManager fourni.
      *
      * @param entityManager gestionnaire d'entités JPA
      */
-    public LieuDeTournageDao(EntityManager entityManager) {
+    public LieuDeNaissanceDao(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public void sauvegarder(LieuDeTournage lieuDeTournage) {
+    public void sauvegarder(LieuDeNaissance lieuDeNaissance) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(lieuDeTournage);
+            entityManager.persist(lieuDeNaissance);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
@@ -30,17 +31,16 @@ public class LieuDeTournageDao {
             }
             throw e;
         }
+
     }
 
-    public LieuDeTournage trouverParNom(String nomRecherche){
+    public LieuDeNaissance trouveParNom(String nomRecherche) {
         try {
-            return entityManager.createQuery("SELECT l FROM LieuDeTournage l WHERE l.nom = :nomRecherche", LieuDeTournage.class)
-                    .setParameter("nomRecherche", nomRecherche)
+            return entityManager.createQuery("SELECT ldn FROM LieuDeNaissance ldn WHERE ldn.nom = :nomEntre", LieuDeNaissance.class)
+                    .setParameter("nomEntre", nomRecherche.trim())
                     .getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             return null;
         }
     }
-
-
 }

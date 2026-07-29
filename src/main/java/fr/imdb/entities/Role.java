@@ -29,8 +29,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(int id, Film film, Acteur acteur, String personnage, boolean estCastingPrincipal) {
-        this.id = id;
+    public Role(Film film, Acteur acteur, String personnage, boolean estCastingPrincipal) {
         this.film = film;
         this.acteur = acteur;
         this.personnage = personnage;
