@@ -3,6 +3,7 @@ package fr.imdb.service;
 import fr.imdb.dao.*;
 import fr.imdb.entities.*;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -97,9 +98,14 @@ public class ImportService {
 
         if (taille != null && !taille.isBlank()) {
             try {
-                String tailleNettoye = taille.replaceAll("[^0-9.]", "");
+                String tailleNettoye = taille.replace(",", ".").replaceAll("[^0-9.]", "");
                 if (!tailleNettoye.isEmpty()) {
-                    acteur.setTaille(new BigDecimal(tailleNettoye));
+                    BigDecimal tailleParsed = new BigDecimal(tailleNettoye);
+                    if (tailleParsed.compareTo(BigDecimal.valueOf(3)) < 0) { // aucune taille humaine ne dépasse 3m
+                        acteur.setTaille(tailleParsed);
+                    } else {
+                        System.err.println("Taille aberrante ignorée : '" + taille + "' pour " + identite);
+                    }
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Impossible de parser la taille : '" + taille + "' pour " + identite);
@@ -169,7 +175,7 @@ public class ImportService {
             try {
                 String ratingNettoye = ratingStr.replaceAll("[^0-9.]", "");
                 if (!ratingNettoye.isEmpty()) {
-                    film.setRating(Double.parseDouble(ratingNettoye));
+                    film.setRating(new BigDecimal(ratingNettoye));
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Impossible de parser le rating : '" + ratingStr + "' pour " + nom);
@@ -199,13 +205,22 @@ public class ImportService {
         Acteur acteur = acteurDao.trouverParIdImdb(idActeur.trim());
 
         if (film != null && acteur != null) {
-            entityManager.getTransaction().begin();
+            EntityTransaction transaction = entityManager.getTransaction();
+            try {
+                transaction.begin();
 
-            Role role = new Role(film, acteur, personnage != null ? personnage.trim() : "", estCastingPrincipal);
-            film.getRoles().add(role);
+                Role role = new Role(film, acteur, personnage != null ? personnage.trim() : "", estCastingPrincipal);
+                film.getRoles().add(role);
 
-            entityManager.persist(role);
-            entityManager.getTransaction().commit();
+                entityManager.persist(role);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+                entityManager.clear();
+                throw e;
+            }
         }
     }
 

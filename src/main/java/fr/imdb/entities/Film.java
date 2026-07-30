@@ -2,6 +2,7 @@ package fr.imdb.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
@@ -16,7 +17,7 @@ public class Film {
     @Column(name = "annee", nullable = false, length = 20)
     private String annee;
     @Column(name = "rating", precision = 3, scale = 1)
-    private double rating;
+    private BigDecimal rating;
     @Column(name = "url", unique = true, length = 60)
     private String url;
     @Column(name = "resume", length = 1000)
@@ -56,7 +57,7 @@ public class Film {
     public Film() {
     }
 
-    public Film(String idImdb, String nom, String annee, double rating, String url, LieuDeTournage lieuDeTournage, Langue langue, String resume, Pays pays) {
+    public Film(String idImdb, String nom, String annee, BigDecimal rating, String url, LieuDeTournage lieuDeTournage, Langue langue, String resume, Pays pays) {
         this.idImdb = idImdb;
         this.nom = nom;
         this.annee = annee;
@@ -92,11 +93,11 @@ public class Film {
         this.annee = annee;
     }
 
-    public double getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
 
