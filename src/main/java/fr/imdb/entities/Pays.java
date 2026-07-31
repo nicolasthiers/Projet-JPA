@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Représente le pays d'origine d'un {@link Film}.
+ */
 @Entity
 @Table(name = "pays")
 public class Pays {
@@ -24,6 +27,10 @@ public class Pays {
     public Pays() {
     }
 
+    /**
+     * @param nom nom du pays
+     * @param url URL IMDb associée au pays (page de recherche par pays d'origine), peut être {@code null}
+     */
     public Pays(String nom, String url) {
         this.nom = nom;
         this.url = url;

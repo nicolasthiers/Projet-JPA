@@ -6,6 +6,13 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Représente un réalisateur de cinéma.
+ * <p>
+ * Un {@code Realisateur} peut avoir réalisé plusieurs {@link Film films}, et un
+ * film peut avoir plusieurs réalisateurs (relation many-to-many via la table
+ * {@code realisateur_film}).
+ */
 @Entity
 @Table(name = "realisateur")
 public class Realisateur extends Personne{
@@ -26,6 +33,13 @@ public class Realisateur extends Personne{
         super();
     }
 
+    /**
+     * @param idImdb identifiant IMDb du réalisateur
+     * @param identite nom complet du réalisateur
+     * @param dateDeNaissance date de naissance, peut être {@code null}
+     * @param lieuDeNaissance lieu de naissance, peut être {@code null}
+     * @param url URL de la fiche IMDb du réalisateur
+     */
     public Realisateur(String idImdb, String identite, LocalDate dateDeNaissance, LieuDeNaissance lieuDeNaissance, String url) {
         super(idImdb, identite, dateDeNaissance, lieuDeNaissance);
         this.url = url;

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Représente une langue parlée dans un ou plusieurs {@link Film films}.
+ */
 @Entity
 @Table(name = "langue")
 public class Langue {
@@ -22,6 +25,9 @@ public class Langue {
     public Langue() {
     }
 
+    /**
+     * @param nomLangue nom de la langue (ex. {@code "English"})
+     */
     public Langue(String nomLangue) {
         this.nomLangue = nomLangue;
     }

@@ -12,8 +12,16 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Point d'entrée du menu console permettant d'interroger la base de données de films
+ * (filmographie d'un acteur, casting d'un film, films par période, films/acteurs en
+ * commun, etc.) via {@link FilmDao} et {@link ActeurDao}.
+ */
 public class MenuApp {
 
+    /**
+     * @param args non utilisé
+     */
     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-jpa");
@@ -46,6 +54,7 @@ public class MenuApp {
         emf.close();
 
     }
+    /** Affiche les options du menu principal. */
     private static void affichermenu() {
         System.out.println("""
                 
@@ -60,6 +69,13 @@ public class MenuApp {
                 =================""");
     }
 
+    /**
+     * Lit un entier saisi au clavier, en reboucle tant que la saisie n'est pas un nombre.
+     *
+     * @param scanner scanner de lecture de l'entrée standard
+     * @param message message affiché à l'utilisateur
+     * @return l'entier saisi
+     */
     private static int lireEntier(Scanner scanner, String message) {
         System.out.print(message);
         while (!scanner.hasNextInt()) {
@@ -71,6 +87,7 @@ public class MenuApp {
         return valeur;
     }
 
+    /** Option de menu : affiche la filmographie d'un acteur saisi au clavier. */
     private static void optionFilmographie(Scanner scanner, FilmDao filmDao) {
         System.out.print("Nom de l'acteur : ");
         String identite = scanner.nextLine();
@@ -86,6 +103,7 @@ public class MenuApp {
         }
     }
 
+    /** Option de menu : affiche le casting d'un film saisi au clavier. */
     private static void optionCasting(Scanner scanner, FilmDao filmDao) {
         System.out.print("Nom du film : ");
         String nomFilm = scanner.nextLine();
@@ -102,6 +120,7 @@ public class MenuApp {
         }
     }
 
+    /** Option de menu : affiche les films sortis entre deux années saisies au clavier. */
     private static void optionFilmEntreAnnee(Scanner scanner, FilmDao filmDao) {
         System.out.print("Année de début : ");
         String debut = scanner.nextLine();
@@ -119,6 +138,7 @@ public class MenuApp {
         }
     }
 
+    /** Option de menu : affiche les films communs à deux acteurs saisis au clavier. */
     private static void optionFilmCommuns(Scanner scanner, FilmDao filmDao) {
         System.out.print("Nom du premier acteur : ");
         String premierActeur = scanner.nextLine();
@@ -136,6 +156,7 @@ public class MenuApp {
         }
     }
 
+    /** Option de menu : affiche les acteurs communs à deux films saisis au clavier. */
     private static void optionActeursCommuns(Scanner scanner, ActeurDao acteurDao) {
         System.out.print("Nom du premier film : ");
         String premierFilm = scanner.nextLine();
@@ -153,6 +174,7 @@ public class MenuApp {
         }
     }
 
+    /** Option de menu : affiche les films d'un acteur sortis entre deux années, tous saisis au clavier. */
     private static void optionFilmsAnneesActeur(Scanner scanner, FilmDao filmDao) {
         System.out.print("Nom de l'acteur : ");
         String acteur = scanner.nextLine();

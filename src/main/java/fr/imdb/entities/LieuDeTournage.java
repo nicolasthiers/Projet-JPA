@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Représente le lieu de tournage d'un {@link Film}.
+ */
 @Entity
 @Table(name = "lieu_de_tournage")
 public class LieuDeTournage {
@@ -22,6 +25,9 @@ public class LieuDeTournage {
     public LieuDeTournage() {
     }
 
+    /**
+     * @param localisation libellé du lieu de tournage
+     */
     public LieuDeTournage(String localisation) {
         this.localisation = localisation;
     }

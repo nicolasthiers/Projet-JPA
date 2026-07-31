@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
 
+/**
+ * Représente un film.
+ * <p>
+ * Un film possède un ou plusieurs {@link Genre genres}, est tourné dans un
+ * {@link LieuDeTournage}, dans une {@link Langue}, dans un {@link Pays}, et est lié
+ * à ses {@link Role rôles} (casting) ainsi qu'à ses {@link Realisateur réalisateurs}.
+ */
 @Entity
 @Table(name = "film")
 public class Film {
@@ -57,6 +64,17 @@ public class Film {
     public Film() {
     }
 
+    /**
+     * @param idImdb identifiant IMDb du film (ex. {@code tt0082449})
+     * @param nom titre du film
+     * @param annee année de sortie (stockée en chaîne pour tolérer les valeurs non numériques)
+     * @param rating note IMDb, peut être {@code null}
+     * @param url URL de la fiche IMDb du film
+     * @param lieuDeTournage lieu de tournage, peut être {@code null}
+     * @param langue langue du film, peut être {@code null}
+     * @param resume résumé du film, peut être {@code null}
+     * @param pays pays d'origine, peut être {@code null}
+     */
     public Film(String idImdb, String nom, String annee, BigDecimal rating, String url, LieuDeTournage lieuDeTournage, Langue langue, String resume, Pays pays) {
         this.idImdb = idImdb;
         this.nom = nom;

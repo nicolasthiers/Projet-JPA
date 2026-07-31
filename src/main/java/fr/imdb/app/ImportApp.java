@@ -8,8 +8,20 @@ import jakarta.persistence.Persistence;
 
 import java.io.IOException;
 
+/**
+ * Point d'entrée pour importer le jeu de données CSV (dossier {@code src/main/resources})
+ * dans la base configurée par l'unité de persistance {@code projet-jpa}.
+ * <p>
+ * Lance les imports dans un ordre respectant les dépendances entre entités : pays,
+ * acteurs, réalisateurs, films, puis les associations film-réalisateur et les rôles.
+ * Les erreurs de lecture des fichiers CSV sont journalisées ; les sorties d'erreur
+ * standard sont redirigées vers {@code erreurs_import.log} pour la durée de l'import.
+ */
 public class ImportApp {
 
+    /**
+     * @param args non utilisé
+     */
     public static void main(String[] args) {
 
         try {

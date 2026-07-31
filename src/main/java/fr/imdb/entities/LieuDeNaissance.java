@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Représente le lieu de naissance d'un {@link Acteur} ou d'un {@link Realisateur}.
+ */
 @Entity
 @Table(name = "lieu_de_naissance")
 public class LieuDeNaissance {
@@ -25,6 +28,9 @@ public class LieuDeNaissance {
     public LieuDeNaissance() {
     }
 
+    /**
+     * @param localisation libellé du lieu (ex. {@code "Ontario, Oregon, USA"})
+     */
     public LieuDeNaissance(String localisation) {
         this.localisation = localisation;
     }
