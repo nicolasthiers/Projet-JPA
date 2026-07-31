@@ -47,6 +47,9 @@ src/main/resources/
 ├── film_realisateurs.csv
 ├── roles.csv
 └── castingPrincipal.csv
+
+conception/
+└── Projet-JPA.vpp   # Diagrammes de conception (modèle Visual Paradigm)
 ```
 
 ## Modèle de données
