@@ -5,6 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 
+/**
+ * DAO d'accès aux {@link Langue}.
+ */
 public class LangueDao {
 
     private EntityManager entityManager;
@@ -18,6 +21,12 @@ public class LangueDao {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Persiste une nouvelle langue dans une transaction dédiée.
+     * En cas d'erreur, la transaction est annulée (rollback) puis l'exception est propagée.
+     *
+     * @param langue langue à sauvegarder
+     */
     public void sauvegarder(Langue langue) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -32,6 +41,10 @@ public class LangueDao {
         }
     }
 
+    /**
+     * @param nomRecherche libellé exact de la langue recherchée
+     * @return la langue correspondante, ou {@code null} si aucune langue ne porte ce libellé
+     */
     public Langue trouverParLibelle(String nomRecherche) {
         try {
             return entityManager.createQuery("SELECT l FROM Langue l WHERE l.nomLangue = :nomEntre", Langue.class)

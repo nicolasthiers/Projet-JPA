@@ -5,6 +5,14 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Superclasse commune à {@link Acteur} et {@link Realisateur}.
+ * <p>
+ * Regroupe les attributs partagés par toute personne du domaine : identifiant IMDb,
+ * identité, date et lieu de naissance. N'étant pas une entité à part entière
+ * ({@code @MappedSuperclass}), elle ne possède pas de table dédiée : ses colonnes
+ * sont reportées sur la table de chaque sous-classe.
+ */
 @MappedSuperclass
 public abstract class Personne {
 
@@ -24,6 +32,12 @@ public abstract class Personne {
     public Personne() {
     }
 
+    /**
+     * @param idImdb identifiant IMDb de la personne (ex. {@code nm0000123})
+     * @param identite nom complet de la personne
+     * @param dateDeNaissance date de naissance, peut être {@code null} si inconnue
+     * @param lieuDeNaissance lieu de naissance, peut être {@code null} si inconnu
+     */
     public Personne(String idImdb, String identite, LocalDate dateDeNaissance, LieuDeNaissance lieuDeNaissance) {
         this.idImdb = idImdb;
         this.identite = identite;

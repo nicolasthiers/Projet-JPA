@@ -4,6 +4,13 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * Représente l'interprétation d'un {@link Acteur} dans un {@link Film} : le
+ * personnage joué et le fait qu'il s'agisse ou non d'un rôle principal.
+ * <p>
+ * Sert de table d'association enrichie entre {@code Film} et {@code Acteur}
+ * (une entité {@link Role} est créée par personnage joué).
+ */
 @Entity
 @Table(name = "role")
 public class Role {
@@ -29,6 +36,12 @@ public class Role {
     public Role() {
     }
 
+    /**
+     * @param film film concerné
+     * @param acteur acteur qui interprète le rôle
+     * @param personnage nom du personnage joué
+     * @param estCastingPrincipal {@code true} si ce rôle fait partie du casting principal du film
+     */
     public Role(Film film, Acteur acteur, String personnage, boolean estCastingPrincipal) {
         this.film = film;
         this.acteur = acteur;

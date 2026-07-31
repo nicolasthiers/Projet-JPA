@@ -10,6 +10,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Représente un acteur de cinéma.
+ * <p>
+ * Une entité {@code Acteur} est liée à ses {@link Role rôles} tenus dans différents
+ * {@link Film films}, via la table de jointure {@code role}.
+ */
 @Entity
 @Table(name = "acteur")
 public class Acteur extends Personne{
@@ -27,6 +33,14 @@ public class Acteur extends Personne{
         super();
     }
 
+    /**
+     * @param idImdb identifiant IMDb de l'acteur
+     * @param identite nom complet de l'acteur
+     * @param dateDeNaissance date de naissance, peut être {@code null}
+     * @param lieuDeNaissance lieu de naissance, peut être {@code null}
+     * @param taille taille en mètres (ex. {@code 1.80}), peut être {@code null}
+     * @param url URL de la fiche IMDb de l'acteur
+     */
     public Acteur(String idImdb, String identite, LocalDate dateDeNaissance, LieuDeNaissance lieuDeNaissance, BigDecimal taille, String url) {
         super(idImdb, identite, dateDeNaissance, lieuDeNaissance);
         this.taille = taille;

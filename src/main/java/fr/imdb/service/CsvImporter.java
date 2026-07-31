@@ -8,14 +8,33 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Lit les fichiers CSV du jeu de données (encodage UTF-8, séparateur {@code ;},
+ * première ligne d'en-tête ignorée) et délègue la création des entités à
+ * {@link ImportService}, ligne par ligne.
+ * <p>
+ * Chaque méthode {@code importerXxx} est tolérante aux erreurs individuelles : une
+ * ligne en échec est journalisée sur {@code System.err} sans interrompre la lecture
+ * du fichier. L'ordre d'appel attendu (respecter les dépendances entre entités) est
+ * illustré par {@link fr.imdb.app.ImportApp}.
+ */
 public class CsvImporter {
 
     private final ImportService importService;
 
+    /**
+     * @param importService service utilisé pour persister les entités importées
+     */
     public CsvImporter(ImportService importService) {
         this.importService = importService;
     }
 
+    /**
+     * Importe les pays depuis un CSV au format {@code NOM;URL}.
+     *
+     * @param cheminFichier chemin du fichier CSV
+     * @throws IOException si le fichier ne peut pas être lu
+     */
     public void importerPays(String cheminFichier) throws IOException {
         Path path = Path.of(cheminFichier);
 
@@ -40,6 +59,13 @@ public class CsvImporter {
         }
     }
 
+    /**
+     * Importe les acteurs depuis un CSV au format
+     * {@code ID IMDB;IDENTITE;DATE NAISSANCE;LIEU NAISSANCE;TAILLE;URL}.
+     *
+     * @param cheminFichier chemin du fichier CSV
+     * @throws IOException si le fichier ne peut pas être lu
+     */
     public void importerActeur(String cheminFichier) throws IOException {
         Path path = Path.of(cheminFichier);
 
@@ -67,6 +93,13 @@ public class CsvImporter {
         }
     }
 
+    /**
+     * Importe les réalisateurs depuis un CSV au format
+     * {@code ID;IDENTITE;DATE NAISSANCE;LIEU NAISSANCE;URL}.
+     *
+     * @param cheminFichier chemin du fichier CSV
+     * @throws IOException si le fichier ne peut pas être lu
+     */
     public void importerRealisateur(String cheminFichier) throws IOException {
         Path path = Path.of(cheminFichier);
 
@@ -94,6 +127,17 @@ public class CsvImporter {
         }
     }
 
+    /**
+     * Importe les films depuis un CSV au format
+     * {@code ID IMDB;NOM;ANNEE;RATING;URL;LIEU TOURNAGE;GENRES;LANGUE;RESUME;...;PAYS}.
+     * <p>
+     * Le pays est toujours le dernier champ de la ligne et le résumé correspond à tous
+     * les champs restants entre l'index 8 (inclus) et le pays (exclu), rejoints par
+     * {@code ";"} — ceci afin de tolérer des points-virgules à l'intérieur même du résumé.
+     *
+     * @param cheminFichier chemin du fichier CSV
+     * @throws IOException si le fichier ne peut pas être lu
+     */
     public void importerFilm(String cheminFichier) throws IOException {
         Path path = Path.of(cheminFichier);
 
@@ -135,6 +179,14 @@ public class CsvImporter {
     }
 
 
+    /**
+     * Rattache des réalisateurs à des films depuis un CSV au format
+     * {@code FILM;ID REALISATEUR}. Le film et le réalisateur doivent déjà avoir été
+     * importés (voir {@link #importerFilm} et {@link #importerRealisateur}).
+     *
+     * @param cheminFichier chemin du fichier CSV
+     * @throws IOException si le fichier ne peut pas être lu
+     */
     public void importerFilmRealisateur(String cheminFichier) throws IOException {
         Path path = Path.of(cheminFichier);
 
@@ -159,6 +211,23 @@ public class CsvImporter {
         }
     }
 
+    /**
+     * Importe les rôles (interprétations d'acteurs) depuis deux CSV :
+     * <ul>
+     *     <li>{@code cheminCastingPrincipal}, format {@code FILM;ID ACTEUR}, qui liste les
+     *     couples film/acteur faisant partie du casting principal ;</li>
+     *     <li>{@code cheminRoles}, format {@code FILM;ID ACTEUR;PERSONNAGE}, qui liste tous
+     *     les rôles à importer.</li>
+     * </ul>
+     * Le fichier de casting principal est chargé intégralement en mémoire au préalable
+     * afin de déterminer, pour chaque rôle, la valeur de {@code estCastingPrincipal}.
+     * Le film et l'acteur référencés doivent déjà avoir été importés. Un message de
+     * progression est affiché tous les 500 rôles traités.
+     *
+     * @param cheminRoles chemin du CSV listant tous les rôles
+     * @param cheminCastingPrincipal chemin du CSV listant les couples film/acteur en casting principal
+     * @throws IOException si l'un des fichiers ne peut pas être lu
+     */
     public void importerRoles(String cheminRoles, String cheminCastingPrincipal) throws IOException {
 
         Set<String> castingsPrincipaux = new HashSet<>();

@@ -5,6 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 
+/**
+ * DAO d'accès aux {@link Pays}.
+ */
 public class PaysDao {
 
     private EntityManager entityManager;
@@ -19,6 +22,12 @@ public class PaysDao {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Persiste un nouveau pays dans une transaction dédiée.
+     * En cas d'erreur, la transaction est annulée (rollback) puis l'exception est propagée.
+     *
+     * @param pays pays à sauvegarder
+     */
     public void sauvegarder(Pays pays) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -34,6 +43,10 @@ public class PaysDao {
 
     }
 
+    /**
+     * @param nomRecherche nom exact du pays recherché
+     * @return le pays correspondant, ou {@code null} si aucun pays ne porte ce nom
+     */
     public Pays trouveParNom(String nomRecherche) {
         try {
             return entityManager.createQuery("SELECT p FROM Pays p WHERE p.nom = :nomEntre", Pays.class)

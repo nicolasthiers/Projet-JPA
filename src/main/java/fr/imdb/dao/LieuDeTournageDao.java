@@ -5,6 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 
+/**
+ * DAO d'accès aux {@link LieuDeTournage}.
+ */
 public class LieuDeTournageDao {
 
     private EntityManager entityManager;
@@ -18,6 +21,12 @@ public class LieuDeTournageDao {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Persiste un nouveau lieu de tournage dans une transaction dédiée.
+     * En cas d'erreur, la transaction est annulée (rollback) puis l'exception est propagée.
+     *
+     * @param lieuDeTournage lieu de tournage à sauvegarder
+     */
     public void sauvegarder(LieuDeTournage lieuDeTournage) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -32,6 +41,10 @@ public class LieuDeTournageDao {
         }
     }
 
+    /**
+     * @param nomRecherche libellé exact du lieu recherché
+     * @return le lieu de tournage correspondant, ou {@code null} si aucun ne porte ce libellé
+     */
     public LieuDeTournage trouverParNom(String nomRecherche){
         try {
             return entityManager.createQuery("SELECT l FROM LieuDeTournage l WHERE l.localisation = :nomRecherche", LieuDeTournage.class)
