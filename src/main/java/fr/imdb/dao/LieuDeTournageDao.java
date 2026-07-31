@@ -34,7 +34,7 @@ public class LieuDeTournageDao {
 
     public LieuDeTournage trouverParNom(String nomRecherche){
         try {
-            return entityManager.createQuery("SELECT l FROM LieuDeTournage l WHERE l.nom = :nomRecherche", LieuDeTournage.class)
+            return entityManager.createQuery("SELECT l FROM LieuDeTournage l WHERE l.localisation = :nomRecherche", LieuDeTournage.class)
                     .setParameter("nomRecherche", nomRecherche)
                     .getSingleResult();
         } catch (NoResultException e){

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.List;
 public class Acteur extends Personne{
 
     @Column(name = "taille", precision = 3, scale = 2)
-    private double taille;
-    @Column(name = "url", nullable = false, unique = true, length = 60)
+    private BigDecimal taille;
+    @Column(name = "url", nullable = false, unique = true, length = 200)
     private String url;
 
     @OneToMany(mappedBy = "acteur")
@@ -26,17 +27,17 @@ public class Acteur extends Personne{
         super();
     }
 
-    public Acteur(String idImdb, String identite, LocalDate dateDeNaissance, LieuDeNaissance lieuDeNaissance, double taille, String url) {
+    public Acteur(String idImdb, String identite, LocalDate dateDeNaissance, LieuDeNaissance lieuDeNaissance, BigDecimal taille, String url) {
         super(idImdb, identite, dateDeNaissance, lieuDeNaissance);
         this.taille = taille;
         this.url = url;
     }
 
-    public double getTaille() {
+    public BigDecimal getTaille() {
         return taille;
     }
 
-    public void setTaille(double taille) {
+    public void setTaille(BigDecimal taille) {
         this.taille = taille;
     }
 

@@ -13,7 +13,7 @@ public class Langue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "nom_langue", unique = true, length = 20)
+    @Column(name = "nom_langue", unique = true, length = 100)
     private String nomLangue;
 
     @OneToMany(mappedBy = "langue")
@@ -22,8 +22,7 @@ public class Langue {
     public Langue() {
     }
 
-    public Langue(int id, String nomLangue) {
-        this.id = id;
+    public Langue(String nomLangue) {
         this.nomLangue = nomLangue;
     }
 

@@ -36,7 +36,7 @@ public class LieuDeNaissanceDao {
 
     public LieuDeNaissance trouveParNom(String nomRecherche) {
         try {
-            return entityManager.createQuery("SELECT ldn FROM LieuDeNaissance ldn WHERE ldn.nom = :nomEntre", LieuDeNaissance.class)
+            return entityManager.createQuery("SELECT ldn FROM LieuDeNaissance ldn WHERE ldn.localisation = :nomEntre", LieuDeNaissance.class)
                     .setParameter("nomEntre", nomRecherche.trim())
                     .getSingleResult();
         } catch (NoResultException e) {

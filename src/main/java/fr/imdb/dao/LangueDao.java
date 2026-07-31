@@ -32,9 +32,9 @@ public class LangueDao {
         }
     }
 
-    public Langue trouverParNom(String nomRecherche) {
+    public Langue trouverParLibelle(String nomRecherche) {
         try {
-            return entityManager.createQuery("SELECT l FROM Langue l WHERE l.nom = :nomEntre", Langue.class)
+            return entityManager.createQuery("SELECT l FROM Langue l WHERE l.nomLangue = :nomEntre", Langue.class)
                     .setParameter("nomEntre", nomRecherche)
                     .getSingleResult();
         } catch (NoResultException e) {
