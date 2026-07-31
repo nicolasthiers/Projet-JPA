@@ -12,7 +12,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "personnage", length = 50)
+    @Column(name = "personnage", length = 255)
     private String personnage;
     @Column(name = "est_casting_principal")
     private boolean estCastingPrincipal;

@@ -30,7 +30,7 @@ https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
 
             <property
                     name="hibernate.show_sql"
-                    value="true"/>
+                    value="false"/>
 
             <property
                     name="hibernate.hbm2ddl.auto"

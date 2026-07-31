@@ -13,7 +13,7 @@ public class LieuDeTournage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "localisation", unique = true, length = 100)
+    @Column(name = "localisation", unique = true, length = 255)
     private String localisation;
 
     @OneToMany(mappedBy = "lieuDeTournage")

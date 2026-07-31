@@ -22,6 +22,7 @@ public class ImportService {
     private final ActeurDao acteurDao;
     private final RealisateurDao realisateurDao;
     private final FilmDao filmDao;
+    private final RoleDao roleDao;
 
     private final EntityManager entityManager;
     private final DateTimeFormatter dateTimeFormatter;
@@ -35,6 +36,7 @@ public class ImportService {
         this.acteurDao = new ActeurDao(entityManager);
         this.realisateurDao = new RealisateurDao(entityManager);
         this.filmDao = new FilmDao(entityManager);
+        this.roleDao = new RoleDao(entityManager);
         this.dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d yyyy", Locale.ENGLISH);
     }
 
@@ -173,7 +175,7 @@ public class ImportService {
 
         if (ratingStr != null && !ratingStr.isBlank())
             try {
-                String ratingNettoye = ratingStr.replaceAll("[^0-9.]", "");
+                String ratingNettoye = ratingStr.replace(",", ".").replaceAll("[^0-9.]", "");
                 if (!ratingNettoye.isEmpty()) {
                     film.setRating(new BigDecimal(ratingNettoye));
                 }
@@ -205,6 +207,13 @@ public class ImportService {
         Acteur acteur = acteurDao.trouverParIdImdb(idActeur.trim());
 
         if (film != null && acteur != null) {
+
+            String personnageNettoye = personnage != null ? personnage.trim() : "";
+
+            if (roleDao.trouverParFilmActeurPersonnage(idFilm.trim(), idActeur.trim(), personnageNettoye) != null) {
+                return; // le rôle existe déjà, on ne le recrée pas
+            }
+
             EntityTransaction transaction = entityManager.getTransaction();
             try {
                 transaction.begin();
@@ -231,9 +240,18 @@ public class ImportService {
         Realisateur realisateur = realisateurDao.trouverParIdImdb(idRealisateur.trim());
 
         if (film != null && realisateur != null) {
-            entityManager.getTransaction().begin();
-            film.getRealisateurs().add(realisateur);
-            entityManager.getTransaction().commit();
+            EntityTransaction transaction = entityManager.getTransaction();
+            try {
+                transaction.begin();
+                film.getRealisateurs().add(realisateur);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+                entityManager.clear();
+                throw e;
+            }
         }
     }
 

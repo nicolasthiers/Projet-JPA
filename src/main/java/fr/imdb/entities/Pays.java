@@ -13,7 +13,7 @@ public class Pays {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "nom", unique = true, nullable = false, length = 20)
+    @Column(name = "nom", unique = true, nullable = false, length = 100)
     private String nom;
     @Column(name = "url", unique = true, length = 60)
     private String url;

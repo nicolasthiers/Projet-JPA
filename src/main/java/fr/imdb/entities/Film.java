@@ -12,7 +12,7 @@ public class Film {
     @Id
     @Column(name = "id_imdb", length = 20)
     private String idImdb;
-    @Column(name = "nom", nullable = false, length = 50)
+    @Column(name = "nom", nullable = false, length = 255)
     private String nom;
     @Column(name = "annee", nullable = false, length = 20)
     private String annee;

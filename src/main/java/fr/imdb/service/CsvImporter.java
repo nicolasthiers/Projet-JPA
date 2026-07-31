@@ -113,9 +113,17 @@ public class CsvImporter {
                 String lieuDeTournage = champs[5].trim();
                 String genre = champs[6].trim();
                 String langue = champs[7].trim();
-                String resume = champs[8].trim();
-                String pays = champs[9].trim();
 
+                // pays = dernier champ du tableau
+                String pays = champs[champs.length - 1].trim();
+
+                // resume = tout ce qui reste entre l'index 8 et pays (exclu), rejoint avec ";"
+                StringBuilder resumeBuilder = new StringBuilder();
+                for (int i = 8; i < champs.length - 1; i++) {
+                    if (i > 8) resumeBuilder.append(";");
+                    resumeBuilder.append(champs[i]);
+                }
+                String resume = resumeBuilder.toString().trim();
 
                 try {
                     importService.importerFilm(idImdb, nom, annee, rating, url, lieuDeTournage, genre, langue, resume, pays);
@@ -175,6 +183,7 @@ public class CsvImporter {
         Path pathRoles = Path.of(cheminRoles);
         try (BufferedReader reader = Files.newBufferedReader(pathRoles, StandardCharsets.UTF_8)) {
             String ligne = reader.readLine();
+            int compteur = 0;
 
             while ((ligne = reader.readLine()) != null) {
                 if (ligne.isBlank()) continue;
@@ -192,6 +201,10 @@ public class CsvImporter {
                     importService.ajouterRole(idFilm, idActeur, personnage, estCastingPrincipal);
                 } catch (Exception e) {
                     System.err.println("Erreur import role " + idFilm + " : " + e.getMessage());
+                }
+                compteur++;
+                if (compteur % 500 == 0) {
+                    System.out.println(">>> Rôles traités : " + compteur);
                 }
             }
         }

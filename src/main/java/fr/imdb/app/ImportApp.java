@@ -12,6 +12,12 @@ public class ImportApp {
 
     public static void main(String[] args) {
 
+        try {
+            System.setErr(new java.io.PrintStream("erreurs_import.log", "UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-jpa");
 
         EntityManager em = emf.createEntityManager();

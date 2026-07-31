@@ -16,7 +16,7 @@ public class Acteur extends Personne{
 
     @Column(name = "taille", precision = 3, scale = 2)
     private BigDecimal taille;
-    @Column(name = "url", nullable = false, unique = true, length = 60)
+    @Column(name = "url", nullable = false, unique = true, length = 200)
     private String url;
 
     @OneToMany(mappedBy = "acteur")
